@@ -23,7 +23,17 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
+    pkgs.gnomeExtensions.blur-my-shell
 
+    pkgs.gnomeExtensions.clipboard-history
+    pkgs.gnomeExtensions.dash-to-panel
+    pkgs.gnomeExtensions.user-themes
+    pkgs.gnomeExtensions.paperwm
+    pkgs.gnomeExtensions.tiling-assistant
+    pkgs.gnomeExtensions.caffeine
+    pkgs.gnomeExtensions.miniview
+    pkgs.gnomeExtensions.arcmenu
+    pkgs.gnomeExtensions.appindicator
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -71,6 +81,25 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
+  };
+
+  dconf = {
+    enable = true;
+    settings."org/gnome/shell" = {
+      disable-user-extensions = false;
+      enabled-extensions = with pkgs.gnomeExtensions; [
+        blur-my-shell.extensionUuid
+	clipboard-history.extensionUuid
+	dash-to-panel.extensionUuid
+	user-themes.extensionUuid
+	paperwm.extensionUuid
+	caffeine.extensionUuid
+	arcmenu.extensionUuid
+	miniview.extensionUuid
+	appindicator.extensionUuid
+      ];
+    };
+    settings."org/gnome/desktop/interface".scaling-factor = 125;
   };
 
   # Let Home Manager install and manage itself.

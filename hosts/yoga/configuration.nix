@@ -6,14 +6,17 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../hpnvidia/hardware-configuration.nix
+      ./hardware-configuration.nix
       ../../modules/de/gnome.nix
+      ./hosts.nix
+      ../../modules/backup-cron.nix
+      #./zapiet-box.nix
       inputs.home-manager.nixosModules.home-manager
     ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = true;
   boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.useOSProber = true;
@@ -67,11 +70,14 @@
     enable = true;
     enable32Bit = true;
   };
+  
+  desktop.gnome.enable = true;
 
   services = {
     flatpak.enable = true;
     openssh.enable = true;
     printing.enable = true;
+    mullvad-vpn.enable = true;
 
     pipewire = {
       enable = true;
@@ -84,16 +90,18 @@
       # use the example session manager (no others are packaged yet so this is enabled by default,
       # no need to redefine it in your config for now)
       #media-session.enable = true;
+
+      # backup configs
+    };
+
+    nixos-config-backup = {
+      enable = true;
+      user = "tawanda";
     };
   };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
-
-  # Bluetooth Support
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -105,8 +113,7 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
+      thunderbird
     ];
   };
 
@@ -116,6 +123,7 @@
       "tawanda" = import ./home.nix;
     };
     backupFileExtension = "backup";
+
   };
 
   # Install firefox.
@@ -152,29 +160,54 @@
   rustup
   nodejs_22
   python39
+  ruby_3_3
+  rubyPackages_3_3.racc
+  go
   nextcloud-client
   tmux
   vlc
   htop
   neofetch
   kitty
+  floorp
+  chromium
+  teams-for-linux
+  podman-desktop
+  openssl
+  libgcc
+  shopify-cli
+
+  # gnome
+  gnome.gnome-tweaks
   ];
 
   # desktop portals for hyprland
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Security / Polkit
   security.rtkit.enable = true;
 
   # docker
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    # listenOptions = [ "/var/run/docker.sock" ];
+  };
 
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;
+  };
+
+  # allow using privileged ports
+  security.wrappers = {
+    docker-rootlesskit = {
+      owner = "root";
+      group = "root";
+      capabilities = "cap_net_bind_service+ep";
+      source = "${pkgs.rootlesskit}/bin/rootlesskit";
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -212,10 +245,39 @@
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # temporary solution for docker rootless issue
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
+  # custom certificates esp for work
+  security.pki.certificates = 
+  [ 
+    ''
+    -----BEGIN CERTIFICATE-----
+MIIDLzCCAhegAwIBAgIUAp23LaKKd5ZpkEzoeftnIHG0PdkwDQYJKoZIhvcNAQEL
+BQAwJzELMAkGA1UEBhMCVVMxGDAWBgNVBAMMD0V4YW1wbGUtUm9vdC1DQTAeFw0y
+NDAzMjcxMTQyNThaFw0yNzAxMTUxMTQyNThaMCcxCzAJBgNVBAYTAlVTMRgwFgYD
+VQQDDA9FeGFtcGxlLVJvb3QtQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+AoIBAQC1qovbr4Dp6aa7p3qawZ3WFf8EWnpxQ8BduiEc7TlQ8ap1YuNW9WPv0O2H
+dkDxHRaRxU0Jb+L2Li5d2cnvamtDU2u+hyGDPOc3fHn/MVZTCwHoGEIpvsFt+toW
+iC9UbsL8YLeI6exsAH9fhr0N3f8GkkwFMT9qZN7t8Z80zOfwEBTg4/37GYmag5S5
+J+BQRhAC4kon6bLIYKB57Iu9e41m/bTHDDo4xHK3L2h6LZ4P7CoJGJHLh44wOgx6
+hGOzX3gMymz942cpsuIgbkvWNT5eD7K7pmatprwP9YqzlD6/bB6byETysfGMXz4V
+JHypRcsmtdWAJ3MmGQejZ3HQEYS7AgMBAAGjUzBRMB0GA1UdDgQWBBQNxEotOASQ
+mLeipwLCm6hBGuLoCzAfBgNVHSMEGDAWgBQNxEotOASQmLeipwLCm6hBGuLoCzAP
+BgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCWYxN7dqWMZO7fopAP
+uUU5B2CTnCwBmXn9TO9ZDAbSIoMKqYDIncZ5NjiDoL5ODOMYa024m+nQqo8Zyuxq
+SPJ1wrO1PNIFxGanaO+aJ1HM8QMfgOL0j2o4ryY9pYS8IiOgv7E1uOf6h1BzPbHo
+Bbx1UFVApsEMGjsrPVkXy9xUljBh83s26cRQpEPMC65CkieX7t4SVZYEEZG7c54X
+b4soIpRa0FNPd3snIHu+hbYQeJvhh+UdRdVu+TlEP/UvMc4NsSImidYapnAuBRaf
+HhckOoPBmkcM9lvd9c399reWM9hzbqwXsBhrJ75ncbz7raMTi0FGmWWUOWxZzd4j
+XVkt
+-----END CERTIFICATE-----
+    ''
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
