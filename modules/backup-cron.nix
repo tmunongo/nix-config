@@ -4,7 +4,47 @@ with lib;
 
 let
   cfg = config.services.nixos-config-backup;
-  backupScript = pkgs.writeScriptBin "backup-nixos-config" (builtins.readFile ./backup-nixos-config.sh);
+  backupScript = pkgs.writeScriptBin "backup-nixos-config" ''
+    #!/bin/bash
+
+    set -euo pipefail
+    exec &> >(tee -a /tmp/nixos-config-backup.log)
+
+    # Set variables
+    CONFIG_DIR="/etc/nixos"
+    BACKUP_DIR="/home/${cfg.user}/Documents/repos/nix-config"
+    GITHUB_REPO="git@github.com:tmunongo/nix-config.git"
+
+    # Ensure backup directory exists
+    echo "Ensuring backup directory exists"
+    mkdir -p "$BACKUP_DIR"
+
+    # Copy NixOS configuration
+    echo "Copying NixOS configuration"
+    cp -r "$CONFIG_DIR"/* "$BACKUP_DIR/"
+
+    # Change to backup directory
+    echo "Changing to backup directory"
+    cd "$BACKUP_DIR" || exit
+
+    # Initialize git repo if it doesn't exist
+    echo "Initializing git repo if it doesn't exist"
+    if [ ! -d .git ]; then
+        git init
+        git remote add origin "$GITHUB_REPO"
+    fi
+
+    # Commit changes
+    echo "Committing changes"
+    git add .
+    git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
+
+    # Push to GitHub
+    echo "Pushing to GitHub"
+    git push -u origin HEAD
+
+    echo "Backup completed at $(date)"
+  '';
 in {
   options.services.nixos-config-backup = {
     enable = mkEnableOption "NixOS config backup service";
