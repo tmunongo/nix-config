@@ -3,7 +3,7 @@
 # Set variables
 CONFIG_DIR="/etc/nixos"
 BACKUP_DIR="$HOME/Documents/repos/nix-config"
-GITHUB_REPO="https://github.com/tmunongo/nix-config.git"
+GITHUB_REPO="git@github.com:tmunongo/nix-config.git"
 
 # Ensure backup directory exists
 mkdir -p "$BACKUP_DIR"
