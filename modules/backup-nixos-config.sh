@@ -25,4 +25,4 @@ git add .
 git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
 
 # Push to GitHub
-git push -u origin main
+git push -u origin HEAD
