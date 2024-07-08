@@ -128,7 +128,14 @@
 
   # Install firefox.
   programs.firefox.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+      theme = "jonathan";
+    };
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -176,9 +183,15 @@
   openssl
   libgcc
   shopify-cli
+  thefuck
+  # patchelf
+  insomnia
 
-  # gnome
-  gnome.gnome-tweaks
+  youtube-tui
+  deluge
+  # rpi-imager
+  fastfetch
+  zstd
   ];
 
   # desktop portals for hyprland

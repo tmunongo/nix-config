@@ -62,6 +62,7 @@ in {
         Type = "oneshot";
         User = cfg.user;
         ExecStart = "${backupScript}/bin/backup-nixos-config";
+        WorkingDirectory = "/tmp";
       };
     };
 
