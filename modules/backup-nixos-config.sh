@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Set variables
 CONFIG_DIR="/etc/nixos"
 BACKUP_DIR="$HOME/Documents/repos/nix-config"
