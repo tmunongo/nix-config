@@ -56,7 +56,10 @@ in {
   config = mkIf cfg.enable {
     systemd.services.nixos-config-backup = {
       description = "Backup NixOS configuration";
-      confinement.packages = [ pkgs.git ];
+      # environment={PATH="/run/current-system/sw/bin/ssh";};
+      preStart=''
+	source /etc/profile
+      '';
       serviceConfig = {
         Type = "oneshot";
         User = cfg.user;
