@@ -23,25 +23,45 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
+  
+  # GTK Config
+  gtk = {
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+  qt = {
+    enable = true;
+    style.name = "adwaita-dark";
+    platformTheme.name = "gtk3";
+  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-    pkgs.gnomeExtensions.blur-my-shell
+    koodo-reader
+    gnomeExtensions.blur-my-shell
 
-    pkgs.gnomeExtensions.clipboard-history
-    pkgs.gnomeExtensions.dash-to-panel
-    pkgs.gnomeExtensions.user-themes
-    pkgs.gnomeExtensions.paperwm
-    pkgs.gnomeExtensions.tiling-assistant
-    pkgs.gnomeExtensions.caffeine
-    pkgs.gnomeExtensions.miniview
-    pkgs.gnomeExtensions.arcmenu
-    pkgs.gnomeExtensions.appindicator
-    pkgs.gnomeExtensions.mute-spotify-ads
+    gnomeExtensions.clipboard-history
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.user-themes
+    gnomeExtensions.paperwm
+    gnomeExtensions.tiling-assistant
+    gnomeExtensions.caffeine
+    gnomeExtensions.miniview
+    gnomeExtensions.arcmenu
+    gnomeExtensions.appindicator
+    gnomeExtensions.mute-spotify-ads
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of

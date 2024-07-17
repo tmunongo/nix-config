@@ -4,9 +4,7 @@ with lib;
 
 let
   cfg = config.services.nixos-config-backup;
-  backupScript = pkgs.writeScriptBin "backup-nixos-config" ''
-    #!/bin/bash
-
+  backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
 
@@ -30,18 +28,18 @@ let
     # Initialize git repo if it doesn't exist
     echo "Initializing git repo if it doesn't exist"
     if [ ! -d .git ]; then
-        git init
-        git remote add origin "$GITHUB_REPO"
+        ${pkgs.git}/bin/git init
+        ${pkgs.git}/bin/git remote add origin "$GITHUB_REPO"
     fi
 
     # Commit changes
     echo "Committing changes"
-    git add .
-    git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
+    ${pkgs.git}/bin/git add .
+    ${pkgs.git}/bin/git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
 
     # Push to GitHub
     echo "Pushing to GitHub"
-    git push -u origin HEAD
+    ${pkgs.git}/bin/git push -u origin HEAD
 
     echo "Backup completed at $(date)"
   '';
@@ -58,11 +56,12 @@ in {
   config = mkIf cfg.enable {
     systemd.services.nixos-config-backup = {
       description = "Backup NixOS configuration";
+      confinement.packages = [ pkgs.git ];
       serviceConfig = {
         Type = "oneshot";
         User = cfg.user;
-        ExecStart = "${backupScript}/bin/backup-nixos-config";
-        WorkingDirectory = "/tmp";
+	ExecStart = "${backupScript}/bin/nixos-config-backup";
+        # WorkingDirectory = "/tmp";
       };
     };
 

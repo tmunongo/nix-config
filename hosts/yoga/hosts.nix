@@ -16,5 +16,7 @@
 127.0.0.1 eats-mothership.local
 127.0.0.1 api.eats-mothership.local
 
+127.0.0.1 scrollwize.local
+
 '';
 }

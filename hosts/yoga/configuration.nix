@@ -21,6 +21,7 @@
   boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "yoga1da"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -192,6 +193,10 @@
   # rpi-imager
   fastfetch
   zstd
+
+  # Android
+  android-studio
+  android-tools
   ];
 
   # desktop portals for hyprland
