@@ -50,18 +50,7 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     koodo-reader
-    gnomeExtensions.blur-my-shell
-
-    gnomeExtensions.clipboard-history
-    gnomeExtensions.dash-to-panel
-    gnomeExtensions.user-themes
-    gnomeExtensions.paperwm
-    gnomeExtensions.tiling-assistant
-    gnomeExtensions.caffeine
-    gnomeExtensions.miniview
-    gnomeExtensions.arcmenu
-    gnomeExtensions.appindicator
-    gnomeExtensions.mute-spotify-ads
+  
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
