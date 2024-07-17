@@ -36,6 +36,8 @@ let
     echo "Committing changes"
     ${pkgs.git}/bin/git add .
     ${pkgs.git}/bin/git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
+    # Pull first
+    ${pkgs.git}/bin/git pull
 
     # Push to GitHub
     echo "Pushing to GitHub"
