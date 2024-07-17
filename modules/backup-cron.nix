@@ -57,9 +57,7 @@ in {
     systemd.services.nixos-config-backup = {
       description = "Backup NixOS configuration";
       # environment={PATH="/run/current-system/sw/bin/ssh";};
-      preStart=''
-	source /etc/profile
-      '';
+      path = [ pkgs.openssh ];
       serviceConfig = {
         Type = "oneshot";
         User = cfg.user;
