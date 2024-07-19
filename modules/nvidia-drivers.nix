@@ -1,3 +1,6 @@
+# courtesy of ZaneyOS 
+# https://gitlab.com/Zaney/zaneyos/-/blob/main/modules/nvidia-prime-drivers.nix
+
 {
   lib,
   pkgs,
