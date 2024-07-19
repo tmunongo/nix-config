@@ -74,7 +74,13 @@
     extraGroups = ["networkmanager" "wheel" "docker" "podman" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-
+	floorp
+	distrobox
+	vscode
+	tmux
+	nvim
+	zellij
+	obsidian
     ];
   };
 
