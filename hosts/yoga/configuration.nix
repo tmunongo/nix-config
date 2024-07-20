@@ -197,6 +197,8 @@
   # Android
   android-studio
   android-tools
+
+  zed-editor
   ];
 
   # desktop portals for hyprland
