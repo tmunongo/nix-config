@@ -193,6 +193,7 @@
   # rpi-imager
   fastfetch
   zstd
+  oha
 
   # Android
   android-studio

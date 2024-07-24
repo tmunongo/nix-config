@@ -36,6 +36,7 @@ in {
         gnomeExtensions.arcmenu
         gnomeExtensions.appindicator
         gnomeExtensions.mute-spotify-ads
+	gnomeExtensions.pop-shell
     ];
     
   };

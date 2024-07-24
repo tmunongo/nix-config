@@ -109,12 +109,13 @@
         clipboard-history.extensionUuid
         dash-to-panel.extensionUuid
         user-themes.extensionUuid
-        paperwm.extensionUuid
+        #paperwm.extensionUuid
         caffeine.extensionUuid
         arcmenu.extensionUuid
         miniview.extensionUuid
         appindicator.extensionUuid
         mute-spotify-ads.extensionUuid
+	pop-shell.extensionUuid
       ];
     };
     settings."org/gnome/desktop/interface".scaling-factor = 125;
