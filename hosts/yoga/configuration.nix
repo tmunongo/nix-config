@@ -123,7 +123,7 @@
     users = {
       "tawanda" = import ./home.nix;
     };
-    backupFileExtension = "backup";
+    backupFileExtension = "bkp";
 
   };
 
@@ -162,7 +162,6 @@
   lshw
   nodejs
   obsidian
-  alacritty
   spotify
   mullvad-vpn
   rustup
