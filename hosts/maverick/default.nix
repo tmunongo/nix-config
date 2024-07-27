@@ -91,6 +91,8 @@
   programs.firefox.enable = true;
   programs.zsh = {
     enable = true;
+    autosuggestions.enable = true;
+
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
@@ -118,6 +120,7 @@
 	# text editors
 	neovim
 	zed-editor
+	vscode
 
 	# languages
 	rustup
@@ -131,6 +134,7 @@
 	distrobox
 	tmux
 	fastfetch
+	deluge
 
 	# entertainment
 	spotify
