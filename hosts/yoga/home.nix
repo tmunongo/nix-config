@@ -26,10 +26,23 @@
   
   # GTK Config
   gtk = {
+    enable = true;
+    
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+    
+    theme = {
+      name = "Flat-Remix-GTK-Black-Dark";
+      package = pkgs.flat-remix-gtk;
+    };
+    
+    cursorTheme = {
+      name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
+    };
+
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
