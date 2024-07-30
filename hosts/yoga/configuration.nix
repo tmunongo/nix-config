@@ -199,6 +199,9 @@
   android-tools
 
   zed-editor
+
+  # dev tools
+  dive
   ];
 
   # desktop portals for hyprland
