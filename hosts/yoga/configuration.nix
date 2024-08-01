@@ -3,6 +3,10 @@
 
 { config, pkgs, inputs, ... }:
 
+let
+  # Import flake's nixpkgs
+  unstablePkgs = import "${config.inputs.nixpkgs}/nixos" { config = config.nixpkgs.config; };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -144,7 +148,7 @@
   # nix.settings.experimental-features = ["nix-command" "flakes" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with unstablePkgs; [
   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   wget
   git
