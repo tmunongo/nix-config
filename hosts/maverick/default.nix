@@ -135,6 +135,7 @@
 	tmux
 	fastfetch
 	deluge
+	insomnia
 
 	# entertainment
 	spotify
