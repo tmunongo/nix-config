@@ -3,10 +3,10 @@
 
 { config, pkgs, inputs, ... }:
 
-let
+# let
   # Import flake's nixpkgs
-  unstablePkgs = import "${config.inputs.nixpkgs}/nixos" { config = config.nixpkgs.config; };
-in
+#  unstablePkgs = import "${config.inputs.nixpkgs}/nixos" { config = config.nixpkgs.config; };
+# in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -131,15 +131,89 @@ in
 
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-  programs.zsh = {
-    enable = true;
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
-      theme = "jonathan";
-    };
+  programs = {
+        # Install firefox.
+  	firefox.enable = true;
+	wireshark.enable = true;
+	zsh = {  
+          enable = true;
+          ohMyZsh = {
+            enable = true;
+            plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+            theme = "jonathan";
+          };
+        };
+	starship = {
+          enable = true;
+          settings = {
+            add_newline = false;
+            buf = {
+            symbol = " ";
+          };
+          c = {
+            symbol = " ";
+          };
+          directory = {
+            read_only = " 󰌾";
+          };
+          docker_context = {
+            symbol = " ";
+          };
+          fossil_branch = {
+            symbol = " ";
+          };
+          git_branch = {
+            symbol = " ";
+          };
+          golang = {
+            symbol = " ";
+          };
+        hg_branch = {
+          symbol = " ";
+        };
+        hostname = {
+          ssh_symbol = " ";
+        };
+        lua = {
+          symbol = " ";
+        };
+        memory_usage = {
+          symbol = "󰍛 ";
+        };
+        meson = {
+          symbol = "󰔷 ";
+        };
+        nim = {
+          symbol = "󰆥 ";
+        };
+        nix_shell = {
+          symbol = " ";
+        };
+        nodejs = {
+          symbol = " ";
+        };
+        ocaml = {
+          symbol = " ";
+        };
+        package = {
+          symbol = "󰏗 ";
+        };
+        python = {
+          symbol = " ";
+        };
+        rust = {
+          symbol = " ";
+        };
+           swift = {
+              symbol = " ";
+           };
+            zig = {
+              symbol = " ";
+            };
+          };
+    	};
+	dconf.enable = true;
+    	seahorse.enable = true;
   };
 
   # Allow unfree packages
@@ -148,7 +222,7 @@ in
   # nix.settings.experimental-features = ["nix-command" "flakes" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with unstablePkgs; [
+  environment.systemPackages = with pkgs; [
   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   wget
   git
@@ -199,8 +273,8 @@ in
   oha
 
   # Android
-  android-studio
-  android-tools
+  # android-studio
+  # android-tools
 
   zed-editor
 
