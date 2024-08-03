@@ -28,6 +28,7 @@ in {
       kdePackages.kate
       kdePackages.okular
       kdePackages.ark
+      libsForQt5.krohnkite
       # kdePackages.gwenview
       
       # Additional KDE-related packages

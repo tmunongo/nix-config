@@ -139,6 +139,7 @@
 
 	# entertainment
 	spotify
+	vlc
   ];
 
   virtualisation.podman = {
