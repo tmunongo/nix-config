@@ -26,23 +26,10 @@
   
   # GTK Config
   gtk = {
-    enable = true;
-    
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
-    
-    theme = {
-      name = "Flat-Remix-GTK-Black-Dark";
-      package = pkgs.flat-remix-gtk;
-    };
-    
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-    };
-
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
@@ -122,13 +109,12 @@
         clipboard-history.extensionUuid
         dash-to-panel.extensionUuid
         user-themes.extensionUuid
-        #paperwm.extensionUuid
+        paperwm.extensionUuid
         caffeine.extensionUuid
         arcmenu.extensionUuid
         miniview.extensionUuid
         appindicator.extensionUuid
         mute-spotify-ads.extensionUuid
-	pop-shell.extensionUuid
       ];
     };
     settings."org/gnome/desktop/interface".scaling-factor = 125;
