@@ -147,9 +147,10 @@
           enable = true;
           settings = {
             add_newline = false;
+	    command_timeout = 1000;
             buf = {
-            symbol = " ";
-          };
+              symbol = " ";
+            };
           c = {
             symbol = " ";
           };
