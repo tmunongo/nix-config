@@ -135,6 +135,10 @@
         # Install firefox.
   	firefox.enable = true;
 	wireshark.enable = true;
+        neovim = {
+          enable = true;
+          defaultEditor = true;
+        };
 	zsh = {  
           enable = true;
           ohMyZsh = {
@@ -220,67 +224,80 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # nix.settings.experimental-features = ["nix-command" "flakes" ];
+  environment.variables = {
+    EDITOR = "vi";
+    SUDO_EDITOR = "vi";
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  
+  # Text Editors
+  neovim
+
+  # code editors 
+  jetbrains.phpstorm
+  vscode
+  zed-editor
+
+  # unix tools
   wget
+  fzf
+  ripgrep
+  curl
+  lshw
+  zsh
+  tmux
+  thefuck
+  htop
+  neofetch
+  distrobox
+  zellij
+  youtube-tui
+
+  # dev tools
   git
   gnumake
-  ripgrep
-  zsh
-  zellij
-  jetbrains.phpstorm
-  curl
-  vscode
-  neovim
-  distrobox
+  openssl
+  libgcc
   wineWowPackages.stable
   winetricks
-  lshw
+  dive
+  oha
+  zstd
+
+  # programming  
   nodejs
-  obsidian
-  spotify
-  mullvad-vpn
   rustup
   nodejs_22
   python39
   ruby_3_3
   rubyPackages_3_3.racc
   go
+  shopify-cli
+
+  
+  # software
+  obsidian
+  spotify
+  mullvad-vpn
   nextcloud-client
-  tmux
   vlc
-  htop
-  neofetch
   kitty
   floorp
   chromium
   teams-for-linux
   podman-desktop
-  openssl
-  libgcc
-  shopify-cli
-  thefuck
+  deluge
   # patchelf
   insomnia
-
-  youtube-tui
-  deluge
   # rpi-imager
   fastfetch
-  zstd
-  oha
 
   # Android
   # android-studio
   # android-tools
-
-  zed-editor
-
-  # dev tools
-  dive
   ];
 
   # desktop portals for hyprland

@@ -109,9 +109,9 @@
   #
   #  /etc/profiles/per-user/tawanda/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  # home.sessionVariables = {
+  #   EDITOR = "nvim";
+  # };
 
   dconf = {
     enable = true;
