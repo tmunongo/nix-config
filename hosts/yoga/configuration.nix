@@ -261,6 +261,7 @@
   gnumake
   openssl
   libgcc
+  clang
   wineWowPackages.stable
   winetricks
   dive
@@ -285,8 +286,6 @@
   nextcloud-client
   vlc
   kitty
-  floorp
-  chromium
   teams-for-linux
   podman-desktop
   deluge
@@ -294,6 +293,12 @@
   insomnia
   # rpi-imager
   fastfetch
+  
+  # browsers
+  chromium
+  floorp
+  vivaldi
+  vivaldi-ffmpeg-codecs
 
   # Android
   # android-studio
