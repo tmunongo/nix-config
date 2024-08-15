@@ -297,8 +297,7 @@
   # browsers
   chromium
   floorp
-  vivaldi
-  vivaldi-ffmpeg-codecs
+  mullvad-browser
 
   # Android
   # android-studio
