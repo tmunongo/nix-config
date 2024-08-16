@@ -267,6 +267,9 @@
   dive
   oha
   zstd
+  wails
+  bun
+  templ
 
   # programming  
   nodejs
@@ -281,10 +284,8 @@
   
   # software
   obsidian
-  spotify
   mullvad-vpn
   nextcloud-client
-  vlc
   kitty
   teams-for-linux
   podman-desktop
@@ -293,6 +294,12 @@
   insomnia
   # rpi-imager
   fastfetch
+
+  # entertainment
+  vlc
+  spotify
+  strawberry
+  tidal-dl
   
   # browsers
   chromium
