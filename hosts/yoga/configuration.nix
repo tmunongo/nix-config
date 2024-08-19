@@ -227,6 +227,7 @@
   environment.variables = {
     EDITOR = "vi";
     SUDO_EDITOR = "vi";
+    PATH=[ "$HOME/go/bin/" ];
   };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
