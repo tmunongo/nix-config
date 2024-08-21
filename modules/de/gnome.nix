@@ -23,7 +23,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-        gnome.gnome-tweaks
+        gnome-tweaks
         gnomeExtensions.blur-my-shell
 
         gnomeExtensions.clipboard-history
@@ -36,6 +36,7 @@ in {
         gnomeExtensions.arcmenu
         gnomeExtensions.appindicator
         gnomeExtensions.mute-spotify-ads
+	gnomeExtensions.pop-shell
     ];
     
   };
