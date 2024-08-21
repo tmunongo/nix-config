@@ -210,6 +210,7 @@
   curl
   vscode
   neovim
+  zed-editor
   distrobox
   wineWowPackages.stable
   winetricks
