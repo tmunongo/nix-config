@@ -271,6 +271,7 @@
   wails
   bun
   templ
+  devbox
 
   # programming  
   nodejs
@@ -281,7 +282,6 @@
   rubyPackages_3_3.racc
   go
   shopify-cli
-
   
   # software
   obsidian
