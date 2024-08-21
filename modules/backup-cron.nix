@@ -5,6 +5,9 @@ with lib;
 let
   cfg = config.services.nixos-config-backup;
   backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
+    # Delay running by 10 seconds post boot
+    sleep 10s
+
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
 
@@ -44,9 +47,6 @@ let
     ${pkgs.git}/bin/git push -u origin HEAD
 
     echo "Backup completed at $(date)"
-
-    # Update local config since we pulled
-    sudo rsync -r --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
   '';
 in {
   options.services.nixos-config-backup = {
