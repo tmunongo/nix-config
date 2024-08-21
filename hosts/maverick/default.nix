@@ -136,6 +136,7 @@
 	fastfetch
 	deluge
 	insomnia
+	devbox
 
 	# entertainment
 	spotify
