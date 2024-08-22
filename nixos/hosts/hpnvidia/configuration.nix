@@ -1,4 +1,5 @@
-# Help is available in the configuration.nix(5) man page
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, inputs, ... }:
@@ -7,23 +8,18 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../modules/de/gnome.nix
-      ./hosts.nix
-      ../../modules/backup-cron.nix
-      #./zapiet-box.nix
-      inputs.home-manager.nixosModules.home-manager
+      inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = true;
   boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "yoga1da"; # Define your hostname.
+  networking.hostName = "nix1da"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -66,19 +62,72 @@
     font-awesome
   ];
 
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
   # Enable OpenGL
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
-  
-  desktop.gnome.enable = true;
+
+  # Load nvidia driver for Xorg and Wayland
+  boot.initrd.kernelModules = ["nvidia"];
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+
+  hardware.nvidia = {
+
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # of just the bare essentials.
+    powerManagement.enable = false;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    open = false;
+
+    # Enable the Nvidia settings menu,
+	# accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  hardware.nvidia.prime = {
+    sync.enable = true;
+
+  # Make sure to use the correct Bus ID values for your system!
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:6:0:0";
+    # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
+  };
 
   services = {
     flatpak.enable = true;
+    gnome.gnome-keyring.enable = true;
     openssh.enable = true;
     printing.enable = true;
-    mullvad-vpn.enable = true;
+    xserver = {
+      videoDrivers = ["nvidia"];
+      enable = true;
+      xkb.layout = "us";
+      xkb.variant = "";
+    };
 
     pipewire = {
       enable = true;
@@ -91,18 +140,16 @@
       # use the example session manager (no others are packaged yet so this is enabled by default,
       # no need to redefine it in your config for now)
       #media-session.enable = true;
-
-      # backup configs
-    };
-
-    nixos-config-backup = {
-      enable = true;
-      user = "tawanda";
     };
   };
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
+
+  # Bluetooth Support
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -114,7 +161,8 @@
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      thunderbird
+      kdePackages.kate
+    #  thunderbird
     ];
   };
 
@@ -124,18 +172,24 @@
       "tawanda" = import ./home.nix;
     };
     backupFileExtension = "backup";
-
   };
 
   # Install firefox.
   programs.firefox.enable = true;
-  programs.zsh = {
+  programs.zsh.enable = true;
+  programs.nm-applet.enable = true;
+  programs.hyprlock.enable = true;
+
+  # hyprland
+  programs.hyprland = {
     enable = true;
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
-      theme = "jonathan";
-    };
+    xwayland.enable = true;
+  };
+
+  # NVIDIA only
+  environment.sessionVariables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   # Allow unfree packages
@@ -168,66 +222,73 @@
   rustup
   nodejs_22
   python39
-  ruby_3_3
-  rubyPackages_3_3.racc
-  go
   nextcloud-client
   tmux
   vlc
   htop
+  libsForQt5.bismuth
   neofetch
+
+  gnome.file-roller
+  swaynotificationcenter
+
+
+  # for hyprland
+  waybar # bar
+  (waybar.overrideAttrs (oldAttrs: {
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+    })
+  )
+  dunst # notificationd daemon
+  libnotify
+  swaybg
   kitty
-  floorp
-  chromium
-  teams-for-linux
-  podman-desktop
-  openssl
-  libgcc
-  shopify-cli
-  thefuck
-  # patchelf
-  insomnia
-
-  youtube-tui
-  deluge
-  # rpi-imager
-  fastfetch
-  zstd
-
-  # Android
-  android-studio
-  android-tools
-
-  zed-editor
+  nwg-dock
+  rofi-wayland
+  lxqt.lxqt-policykit
+  brightnessctl
+  swaylock
+  networkmanagerapplet
   ];
 
   # desktop portals for hyprland
   xdg.portal = {
     enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Security / Polkit
   security.rtkit.enable = true;
+  security.polkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (
+        subject.isInGroup("users")
+          && (
+            action.id == "org.freedesktop.login1.reboot" ||
+            action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+            action.id == "org.freedesktop.login1.power-off" ||
+            action.id == "org.freedesktop.login1.power-off-multiple-sessions"
+          )
+        )
+      {
+        return polkit.Result.YES;
+      }
+    })
+  '';
+  security.pam.services.hyprlock = {
+    text = ''
+      auth include login
+    '';
+  };
+
 
   # docker
-  virtualisation.docker = {
-    enable = true;
-    # listenOptions = [ "/var/run/docker.sock" ];
-  };
+  virtualisation.docker.enable = true;
 
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;
-  };
-
-  # allow using privileged ports
-  security.wrappers = {
-    docker-rootlesskit = {
-      owner = "root";
-      group = "root";
-      capabilities = "cap_net_bind_service+ep";
-      source = "${pkgs.rootlesskit}/bin/rootlesskit";
-    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -246,6 +307,15 @@
   #  "org.winehq.wine"
   #  "com.usebottles.bottles"
   #]
+  # systemd.user.services.polkit-kde-agent-1 = {
+  #  description = "polkit-kde-agent-1";
+  #  wantedBy = [ "graphical-session.target" ];
+  #  serviceConfig = {
+  #    Type = "simple";
+  #    ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-agent-1";
+  #    Restart = "on-failure";
+  #  };
+  #};
 
   nix = {
     settings = {
@@ -264,40 +334,15 @@
     };
   };
 
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # temporary solution for docker rootless issue
-  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
-  # custom certificates esp for work
-  security.pki.certificates = 
-  [ 
-    ''
-    -----BEGIN CERTIFICATE-----
-MIIDLzCCAhegAwIBAgIUAp23LaKKd5ZpkEzoeftnIHG0PdkwDQYJKoZIhvcNAQEL
-BQAwJzELMAkGA1UEBhMCVVMxGDAWBgNVBAMMD0V4YW1wbGUtUm9vdC1DQTAeFw0y
-NDAzMjcxMTQyNThaFw0yNzAxMTUxMTQyNThaMCcxCzAJBgNVBAYTAlVTMRgwFgYD
-VQQDDA9FeGFtcGxlLVJvb3QtQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
-AoIBAQC1qovbr4Dp6aa7p3qawZ3WFf8EWnpxQ8BduiEc7TlQ8ap1YuNW9WPv0O2H
-dkDxHRaRxU0Jb+L2Li5d2cnvamtDU2u+hyGDPOc3fHn/MVZTCwHoGEIpvsFt+toW
-iC9UbsL8YLeI6exsAH9fhr0N3f8GkkwFMT9qZN7t8Z80zOfwEBTg4/37GYmag5S5
-J+BQRhAC4kon6bLIYKB57Iu9e41m/bTHDDo4xHK3L2h6LZ4P7CoJGJHLh44wOgx6
-hGOzX3gMymz942cpsuIgbkvWNT5eD7K7pmatprwP9YqzlD6/bB6byETysfGMXz4V
-JHypRcsmtdWAJ3MmGQejZ3HQEYS7AgMBAAGjUzBRMB0GA1UdDgQWBBQNxEotOASQ
-mLeipwLCm6hBGuLoCzAfBgNVHSMEGDAWgBQNxEotOASQmLeipwLCm6hBGuLoCzAP
-BgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCWYxN7dqWMZO7fopAP
-uUU5B2CTnCwBmXn9TO9ZDAbSIoMKqYDIncZ5NjiDoL5ODOMYa024m+nQqo8Zyuxq
-SPJ1wrO1PNIFxGanaO+aJ1HM8QMfgOL0j2o4ryY9pYS8IiOgv7E1uOf6h1BzPbHo
-Bbx1UFVApsEMGjsrPVkXy9xUljBh83s26cRQpEPMC65CkieX7t4SVZYEEZG7c54X
-b4soIpRa0FNPd3snIHu+hbYQeJvhh+UdRdVu+TlEP/UvMc4NsSImidYapnAuBRaf
-HhckOoPBmkcM9lvd9c399reWM9hzbqwXsBhrJ75ncbz7raMTi0FGmWWUOWxZzd4j
-XVkt
------END CERTIFICATE-----
-    ''
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

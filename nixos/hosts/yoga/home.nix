@@ -8,13 +8,6 @@
   
   imports = [
   ];
-  
-  # Place files inside the home directory
-  home.file.".config/fastfetch" = {
-    source = ../../config/fastfetch;
-    recursive = true;
-  };
-
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -23,34 +16,14 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
-  
-  # GTK Config
-  gtk = {
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-  };
-  qt = {
-    enable = true;
-    style.name = "adwaita-dark";
-    platformTheme.name = "gtk3";
-  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
-    koodo-reader
-  
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -98,26 +71,6 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
-  };
-
-  dconf = {
-    enable = true;
-    settings."org/gnome/shell" = {
-      disable-user-extensions = false;
-      enabled-extensions = with pkgs.gnomeExtensions; [
-        blur-my-shell.extensionUuid
-        clipboard-history.extensionUuid
-        dash-to-panel.extensionUuid
-        user-themes.extensionUuid
-        paperwm.extensionUuid
-        caffeine.extensionUuid
-        arcmenu.extensionUuid
-        miniview.extensionUuid
-        appindicator.extensionUuid
-        mute-spotify-ads.extensionUuid
-      ];
-    };
-    settings."org/gnome/desktop/interface".scaling-factor = 125;
   };
 
   # Let Home Manager install and manage itself.
