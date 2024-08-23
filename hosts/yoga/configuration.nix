@@ -115,7 +115,7 @@
   users.users.tawanda = {
     isNormalUser = true;
     description = "tawanda";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       thunderbird
@@ -272,7 +272,6 @@
   bun
   templ
   devbox
-  docker-compose
 
   # programming  
   nodejs
@@ -291,6 +290,7 @@
   kitty
   teams-for-linux
   podman-desktop
+  podman-compose
   deluge
   # patchelf
   insomnia
@@ -325,7 +325,7 @@
   #  enable = true;
     # listenOptions = [ "/var/run/docker.sock" ];
   #};
-
+  virtualisation.containers.enable = true;
   virtualisation.podman = {
     enable = true;
     dockerSocket.enable = true;
@@ -338,14 +338,14 @@
   # };
 
   # allow using privileged ports
-  security.wrappers = {
-    docker-rootlesskit = {
-      owner = "root";
-      group = "root";
-      capabilities = "cap_net_bind_service+ep";
-      source = "${pkgs.rootlesskit}/bin/rootlesskit";
-    };
-  };
+  # security.wrappers = {
+  #   docker-rootlesskit = {
+  #     owner = "root";
+  #     group = "root";
+  #     capabilities = "cap_net_bind_service+ep";
+  #     source = "${pkgs.rootlesskit}/bin/rootlesskit";
+  #   };
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
