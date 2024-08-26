@@ -10,6 +10,7 @@
             #../../modules/nvidia-prime-drivers.nix
             ../../modules/backup-cron.nix
 	    ../../modules/de/kde.nix
+	    ./hosts.nix
         ];
 
     boot.loader.systemd-boot.enable = true;
@@ -139,6 +140,7 @@
 	insomnia
 	devbox
 	docker-compose
+	openssl
 
 	# entertainment
 	spotify
@@ -174,7 +176,7 @@
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0;
 
   system.stateVersion = "24.05"; 
 }
