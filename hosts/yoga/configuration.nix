@@ -236,6 +236,7 @@
   
   # Text Editors
   neovim
+  helix
 
   # code editors 
   jetbrains.phpstorm
