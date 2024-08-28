@@ -96,7 +96,7 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+      plugins = [ "git" "sudo" "history-substring-search" "thefuck" "podman" "fzf" ];
       theme = "jonathan";
     };
   };
@@ -122,7 +122,6 @@
 	neovim
 	zed-editor
 	vscode
-	helix
 	jetbrains-toolbox
 
 	# languages
@@ -143,6 +142,7 @@
 	docker-compose
 	openssl
 	direnv
+	fzf
 
 	# entertainment
 	spotify

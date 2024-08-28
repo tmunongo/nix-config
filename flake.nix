@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -14,13 +15,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, chaotic, ... }@inputs:
    {
     nixosConfigurations = { 
       default = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
         modules = [
           ./hosts/hpnvidia/configuration.nix
+	  chaotic.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -34,6 +36,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/yoga/configuration.nix
+	  chaotic.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
