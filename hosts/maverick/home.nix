@@ -4,7 +4,9 @@
   home.username = "maverick";
   home.homeDirectory = "/home/maverick";
 
-  imports = [];
+  imports = [
+    ../../config/neovim.nix
+  ];
 
   home.file.".config/fastfetch" = {
     source = ../../config/fastfetch;
@@ -27,10 +29,6 @@
 
   home.file = {
     # ".screenrc".source = dotfiles/screenrc;    
-  };
-
-  home.sessionVariables = {
-    EDITOR = "vim";
   };
 
   programs.home-manager.enable = true;

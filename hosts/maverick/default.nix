@@ -102,7 +102,6 @@
   };
   system.userActivationScripts.zshrc = "fastfetch";
   programs.neovim = {
-    enable = true;
     defaultEditor = true;
     vimAlias = true;
   };
@@ -113,8 +112,8 @@
   environment.systemPackages = with pkgs; [
 	# browsers
 	floorp
-	vivaldi
-	vivaldi-ffmpeg-codecs
+	# vivaldi
+	# vivaldi-ffmpeg-codecs
 
 	# terminal emulators
 	kitty
@@ -123,6 +122,8 @@
 	neovim
 	zed-editor
 	vscode
+	helix
+	jetbrains-toolbox
 
 	# languages
 	rustup
@@ -141,6 +142,7 @@
 	devbox
 	docker-compose
 	openssl
+	direnv
 
 	# entertainment
 	spotify
