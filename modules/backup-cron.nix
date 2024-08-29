@@ -5,6 +5,8 @@ with lib;
 let
   cfg = config.services.nixos-config-backup;
   backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
+    sleep 10s
+
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
 
@@ -24,29 +26,30 @@ let
     # Change to backup directory
     echo "Changing to backup directory"
     cd "$BACKUP_DIR" || exit
-
+ 
     # Initialize git repo if it doesn't exist
     echo "Initializing git repo if it doesn't exist"
     if [ ! -d .git ]; then
         ${pkgs.git}/bin/git init
         ${pkgs.git}/bin/git remote add origin "$GITHUB_REPO"
     fi
-
+ 
     # Commit changes
     echo "Committing changes"
     ${pkgs.git}/bin/git add .
-    ${pkgs.git}/bin/git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S')"
+    ${pkgs.git}/bin/git commit -m "Automated backup $(date +'%Y-%m-%d %H:%M:%S') by ${cfg.user}"
+
     # Pull first
     ${pkgs.git}/bin/git pull
-
+    
     # Push to GitHub
     echo "Pushing to GitHub"
     ${pkgs.git}/bin/git push -u origin HEAD
 
-    echo "Backup completed at $(date)"
+    echo "Backup completed at $(date) by ${cfg.user}"
 
     # Update local config since we pulled
-    sudo rsync -r --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
+    ${pkgs.rsync}/bin/rsycn -rv --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
   '';
 in {
   options.services.nixos-config-backup = {

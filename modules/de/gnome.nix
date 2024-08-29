@@ -23,7 +23,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-        gnome-tweaks
+        gnome.gnome-tweaks
         gnomeExtensions.blur-my-shell
 
         gnomeExtensions.clipboard-history

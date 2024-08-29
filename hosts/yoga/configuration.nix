@@ -268,9 +268,6 @@
   dive
   oha
   zstd
-  wails
-  bun
-  templ
   devbox
 
   # programming  
@@ -305,6 +302,7 @@
   # browsers
   chromium
   floorp
+  zen-browser
 
   # Android
   # android-studio
@@ -342,26 +340,6 @@
   #     owner = "root";
   #     group = "root";
   #     capabilities = "cap_net_bind_service+ep";
-  #     source = "${pkgs.rootlesskit}/bin/rootlesskit";
-  #   };
-  # };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # flatpak services
-  #services.flatpak.packages = [
-  #  { appId = "one.ablaze.floorp"; origin = "flathub"; }
-  #  "org.winehq.wine"
-  #  "com.usebottles.bottles"
-  #]
 
   nix = {
     settings = {
@@ -388,32 +366,6 @@
 
   # temporary solution for docker rootless issue
   boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
-  # custom certificates esp for work
-  security.pki.certificates = 
-  [ 
-    ''
-    -----BEGIN CERTIFICATE-----
-MIIDLzCCAhegAwIBAgIUAp23LaKKd5ZpkEzoeftnIHG0PdkwDQYJKoZIhvcNAQEL
-BQAwJzELMAkGA1UEBhMCVVMxGDAWBgNVBAMMD0V4YW1wbGUtUm9vdC1DQTAeFw0y
-NDAzMjcxMTQyNThaFw0yNzAxMTUxMTQyNThaMCcxCzAJBgNVBAYTAlVTMRgwFgYD
-VQQDDA9FeGFtcGxlLVJvb3QtQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
-AoIBAQC1qovbr4Dp6aa7p3qawZ3WFf8EWnpxQ8BduiEc7TlQ8ap1YuNW9WPv0O2H
-dkDxHRaRxU0Jb+L2Li5d2cnvamtDU2u+hyGDPOc3fHn/MVZTCwHoGEIpvsFt+toW
-iC9UbsL8YLeI6exsAH9fhr0N3f8GkkwFMT9qZN7t8Z80zOfwEBTg4/37GYmag5S5
-J+BQRhAC4kon6bLIYKB57Iu9e41m/bTHDDo4xHK3L2h6LZ4P7CoJGJHLh44wOgx6
-hGOzX3gMymz942cpsuIgbkvWNT5eD7K7pmatprwP9YqzlD6/bB6byETysfGMXz4V
-JHypRcsmtdWAJ3MmGQejZ3HQEYS7AgMBAAGjUzBRMB0GA1UdDgQWBBQNxEotOASQ
-mLeipwLCm6hBGuLoCzAfBgNVHSMEGDAWgBQNxEotOASQmLeipwLCm6hBGuLoCzAP
-BgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCWYxN7dqWMZO7fopAP
-uUU5B2CTnCwBmXn9TO9ZDAbSIoMKqYDIncZ5NjiDoL5ODOMYa024m+nQqo8Zyuxq
-SPJ1wrO1PNIFxGanaO+aJ1HM8QMfgOL0j2o4ryY9pYS8IiOgv7E1uOf6h1BzPbHo
-Bbx1UFVApsEMGjsrPVkXy9xUljBh83s26cRQpEPMC65CkieX7t4SVZYEEZG7c54X
-b4soIpRa0FNPd3snIHu+hbYQeJvhh+UdRdVu+TlEP/UvMc4NsSImidYapnAuBRaf
-HhckOoPBmkcM9lvd9c399reWM9hzbqwXsBhrJ75ncbz7raMTi0FGmWWUOWxZzd4j
-XVkt
------END CERTIFICATE-----
-    ''
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
