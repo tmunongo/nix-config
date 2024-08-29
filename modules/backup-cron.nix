@@ -5,6 +5,9 @@ with lib;
 let
   cfg = config.services.nixos-config-backup;
   backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
+    # Delay running by 10 seconds post boot
+    sleep 10s
+
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
 
@@ -45,8 +48,8 @@ let
 
     echo "Backup completed at $(date)"
 
-    # Update local config since we pulled
-    sudo rsync -r --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
+    echo "Updating config directory with updated config from repo"
+    ${pkgs.rsync}/bin/rsync -r --exclude="$BACKUP_DIR/.git" "$BACKUP_DIR" "CONFIG_DIR" 
   '';
 in {
   options.services.nixos-config-backup = {
@@ -62,7 +65,7 @@ in {
     systemd.services.nixos-config-backup = {
       description = "Backup NixOS configuration";
       # environment={PATH="/run/current-system/sw/bin/ssh";};
-      path = [ pkgs.openssh ];
+      path = [ pkgs.openssh pkgs.rsync ];
       serviceConfig = {
         Type = "oneshot";
         User = cfg.user;
@@ -81,7 +84,7 @@ in {
     };
 
     # Ensure git is installed
-    environment.systemPackages = [ pkgs.git ];
+    environment.systemPackages = [ pkgs.git pkgs.rsync ];
 
     # Set up SSH for the user
     programs.ssh = {
