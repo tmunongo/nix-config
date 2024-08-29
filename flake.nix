@@ -22,7 +22,7 @@
         specialArgs = {inherit inputs;};
         modules = [
           ./hosts/hpnvidia/configuration.nix
-          chaotic.nixosModules.default
+	  chaotic.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -36,7 +36,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/yoga/configuration.nix
-          chaotic.nixosModules.default
+	  chaotic.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
