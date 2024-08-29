@@ -84,7 +84,7 @@ in {
     };
 
     # Ensure git is installed
-    environment.systemPackages = [ pkgs.git ];
+    environment.systemPackages = [ pkgs.git pkgs.rsync ];
 
     # Set up SSH for the user
     programs.ssh = {
