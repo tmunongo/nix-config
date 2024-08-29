@@ -47,6 +47,9 @@ let
     ${pkgs.git}/bin/git push -u origin HEAD
 
     echo "Backup completed at $(date)"
+
+    echo "Updating config directory with updated config from repo"
+    rsync --exclude="$BACKUP_DIR/.git" "$BACKUP_DIR" "CONFIG_DIR" 
   '';
 in {
   options.services.nixos-config-backup = {
