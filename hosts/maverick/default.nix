@@ -3,19 +3,21 @@
 {
     imports =
         [
-            ../../hardware-configuration.nix
+            ./hardware-configuration.nix
             inputs.home-manager.nixosModules.home-manager
 
             #nvidia support
-            ../../modules/nvidia-prime-drivers.nix
+            #../../modules/nvidia-prime-drivers.nix
             ../../modules/backup-cron.nix
+	    ../../modules/de/kde.nix
+	    ./hosts.nix
         ];
 
-    # boot.loader.systemd-boot.enable = true;
+    boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.grub.enable = true;
-    boot.loader.grub.devices = [ "nodev" ];
-    boot.loader.grub.useOSProber = true;
+    #boot.loader.grub.enable = true;
+    #boot.loader.grub.devices = [ "nodev" ];
+    #boot.loader.grub.useOSProber = true;
     boot.loader.grub.efiSupport = true;
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -66,21 +68,16 @@
     };
   };
 
-  hardware.pulseaudio.enable = true;
-
+  hardware.pulseaudio.enable = false;
+  
+  users.mutableUsers = true;
   users.users.maverick = {
     isNormalUser = true;
+    # hashedPassword = "$y$j9T$kVpObHal.eRqQgNfmk1Pd1$ud0DeuHDj1ytkAZj4xxNf.s4yqfoWFg3QNjNSB7gq82";
     description = "Maverick";
     extraGroups = ["networkmanager" "wheel" "docker" "podman" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-	floorp
-	distrobox
-	vscode
-	tmux
-	nvim
-	zellij
-	obsidian
     ];
   };
 
@@ -95,17 +92,61 @@
   programs.firefox.enable = true;
   programs.zsh = {
     enable = true;
+    autosuggestions.enable = true;
+
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+      plugins = [ "git" "sudo" "history-substring-search" "thefuck" "podman" "fzf" ];
       theme = "jonathan";
     };
   };
+  system.userActivationScripts.zshrc = "fastfetch";
+  programs.neovim = {
+    defaultEditor = true;
+    vimAlias = true;
+  };
+  services.flatpak.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+	# browsers
+	floorp
+	# vivaldi
+	# vivaldi-ffmpeg-codecs
 
+	# terminal emulators
+	kitty
+
+	# text editors
+	neovim
+	zed-editor
+	vscode
+	jetbrains-toolbox
+
+	# languages
+	rustup
+	go_1_22
+	nodejs
+
+	# misc
+	obsidian
+	thefuck
+	zellij
+	distrobox
+	tmux
+	fastfetch
+	deluge
+	insomnia
+	devbox
+	docker-compose
+	openssl
+	direnv
+	fzf
+
+	# entertainment
+	spotify
+	vlc
   ];
 
   virtualisation.podman = {
@@ -113,5 +154,31 @@
     dockerSocket.enable = true;
     dockerCompat = true;
   };
-  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
+
+  security.rtkit.enable = true;
+
+
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      # substituters = [ "https://hyprland.cachix.org" ];
+      # trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0;
+
+  system.stateVersion = "24.05"; 
 }

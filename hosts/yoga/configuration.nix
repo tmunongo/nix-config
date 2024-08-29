@@ -3,10 +3,6 @@
 
 { config, pkgs, inputs, ... }:
 
-# let
-  # Import flake's nixpkgs
-#  unstablePkgs = import "${config.inputs.nixpkgs}/nixos" { config = config.nixpkgs.config; };
-# in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -115,7 +111,7 @@
   users.users.tawanda = {
     isNormalUser = true;
     description = "tawanda";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
       thunderbird
@@ -127,188 +123,82 @@
     users = {
       "tawanda" = import ./home.nix;
     };
-    backupFileExtension = "bkp";
+    backupFileExtension = "backup";
 
   };
 
-  programs = {
-        # Install firefox.
-  	firefox.enable = true;
-	wireshark.enable = true;
-        neovim = {
-          enable = true;
-          defaultEditor = true;
-        };
-	zsh = {  
-          enable = true;
-          ohMyZsh = {
-            enable = true;
-            plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
-            theme = "jonathan";
-          };
-        };
-	starship = {
-          enable = true;
-          settings = {
-            add_newline = false;
-	    command_timeout = 1000;
-            buf = {
-              symbol = " ";
-            };
-          c = {
-            symbol = " ";
-          };
-          directory = {
-            read_only = " 󰌾";
-          };
-          docker_context = {
-            symbol = " ";
-          };
-          fossil_branch = {
-            symbol = " ";
-          };
-          git_branch = {
-            symbol = " ";
-          };
-          golang = {
-            symbol = " ";
-          };
-        hg_branch = {
-          symbol = " ";
-        };
-        hostname = {
-          ssh_symbol = " ";
-        };
-        lua = {
-          symbol = " ";
-        };
-        memory_usage = {
-          symbol = "󰍛 ";
-        };
-        meson = {
-          symbol = "󰔷 ";
-        };
-        nim = {
-          symbol = "󰆥 ";
-        };
-        nix_shell = {
-          symbol = " ";
-        };
-        nodejs = {
-          symbol = " ";
-        };
-        ocaml = {
-          symbol = " ";
-        };
-        package = {
-          symbol = "󰏗 ";
-        };
-        python = {
-          symbol = " ";
-        };
-        rust = {
-          symbol = " ";
-        };
-           swift = {
-              symbol = " ";
-           };
-            zig = {
-              symbol = " ";
-            };
-          };
-    	};
-	dconf.enable = true;
-    	seahorse.enable = true;
+  # Install firefox.
+  programs.firefox.enable = true;
+  programs.zsh = {
+    enable = true;
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+      theme = "jonathan";
+    };
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  environment.variables = {
-    EDITOR = "vi";
-    SUDO_EDITOR = "vi";
-    PATH="$HOME/go/bin/";
-  };
+  # nix.settings.experimental-features = ["nix-command" "flakes" ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  
-  # Text Editors
-  neovim
-
-  # code editors 
-  jetbrains.phpstorm
-  vscode
-  zed-editor
-
-  # unix tools
   wget
-  fzf
-  ripgrep
-  curl
-  lshw
-  zsh
-  tmux
-  thefuck
-  htop
-  neofetch
-  distrobox
-  zellij
-  yt-dlp
-
-  # dev tools
   git
   gnumake
-  openssl
-  libgcc
-  clang
+  ripgrep
+  zsh
+  zellij
+  jetbrains.phpstorm
+  curl
+  vscode
+  neovim
+  distrobox
   wineWowPackages.stable
   winetricks
-  dive
-  oha
-  zstd
-  wails
-  bun
-  templ
-  devbox
-
-  # programming  
+  lshw
   nodejs
+  obsidian
+  alacritty
+  spotify
+  mullvad-vpn
   rustup
   nodejs_22
   python39
   ruby_3_3
   rubyPackages_3_3.racc
   go
-  shopify-cli
-  
-  # software
-  obsidian
-  mullvad-vpn
   nextcloud-client
+  tmux
+  vlc
+  htop
+  neofetch
   kitty
+  floorp
+  chromium
   teams-for-linux
   podman-desktop
-  podman-compose
-  deluge
+  openssl
+  libgcc
+  shopify-cli
+  thefuck
   # patchelf
   insomnia
+
+  youtube-tui
+  deluge
   # rpi-imager
   fastfetch
-
-  # entertainment
-  vlc
-  spotify
-  strawberry
-  
-  # browsers
-  chromium
-  floorp
+  zstd
 
   # Android
-  # android-studio
-  # android-tools
+  android-studio
+  android-tools
+
+  zed-editor
   ];
 
   # desktop portals for hyprland
@@ -320,31 +210,25 @@
   security.rtkit.enable = true;
 
   # docker
-  # virtualisation.docker = {
-  #  enable = true;
-    # listenOptions = [ "/var/run/docker.sock" ];
-  #};
-  virtualisation.containers.enable = true;
-  virtualisation.podman = {
+  virtualisation.docker = {
     enable = true;
-    dockerSocket.enable = true;
-    defaultNetwork.settings.dns_enabled = true;
-    dockerCompat = true;
+    # listenOptions = [ "/var/run/docker.sock" ];
   };
-  # virtualisation.docker.rootless = {
-  #   enable = true;
-  #  setSocketVariable = true;
-  # };
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # allow using privileged ports
-  # security.wrappers = {
-  #   docker-rootlesskit = {
-  #     owner = "root";
-  #     group = "root";
-  #     capabilities = "cap_net_bind_service+ep";
-  #     source = "${pkgs.rootlesskit}/bin/rootlesskit";
-  #   };
-  # };
+  security.wrappers = {
+    docker-rootlesskit = {
+      owner = "root";
+      group = "root";
+      capabilities = "cap_net_bind_service+ep";
+      source = "${pkgs.rootlesskit}/bin/rootlesskit";
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
