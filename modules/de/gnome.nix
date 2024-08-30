@@ -23,14 +23,14 @@ in {
     };
 
     environment.systemPackages = with pkgs; [
-        gnome.gnome-tweaks
+        gnome-tweaks
         gnomeExtensions.blur-my-shell
 
         gnomeExtensions.clipboard-history
         gnomeExtensions.dash-to-panel
         gnomeExtensions.user-themes
         gnomeExtensions.paperwm
-        gnomeExtensions.tiling-assistant
+        # gnomeExtensions.tiling-assistant
         gnomeExtensions.caffeine
         gnomeExtensions.miniview
         gnomeExtensions.arcmenu

@@ -222,7 +222,14 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [
+        "electron-29.4.6"
+      ];
+    };
+  };
 
   environment.variables = {
     EDITOR = "vi";
@@ -302,12 +309,12 @@
   # browsers
   chromium
   floorp
-  zen-browser
 
   # Android
   # android-studio
   # android-tools
   ];
+
 
   # desktop portals for hyprland
   xdg.portal = {

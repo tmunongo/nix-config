@@ -49,7 +49,7 @@ let
     echo "Backup completed at $(date) by ${cfg.user}"
 
     # Update local config since we pulled
-    ${pkgs.rsync}/bin/rsycn -rv --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
+    ${pkgs.rsync}/bin/rsync -rv --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
   '';
 in {
   options.services.nixos-config-backup = {
