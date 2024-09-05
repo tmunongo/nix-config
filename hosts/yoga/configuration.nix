@@ -293,7 +293,7 @@
   nextcloud-client
   kitty
   teams-for-linux
-  podman-desktop
+  # podman-desktop # not being updated
   podman-compose
   deluge
   # patchelf

@@ -5,13 +5,13 @@ with lib;
 let
   cfg = config.services.nixos-config-backup;
   backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
-    sleep 10s
+    sleep 5s
 
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
 
     # Set variables
-    CONFIG_DIR="/etc/nixos"
+    # CONFIG_DIR="/etc/nixos"
     BACKUP_DIR="/home/${cfg.user}/Documents/repos/nix-config"
     GITHUB_REPO="git@github.com:tmunongo/nix-config.git"
 
@@ -20,8 +20,8 @@ let
     mkdir -p "$BACKUP_DIR"
 
     # Copy NixOS configuration
-    echo "Copying NixOS configuration"
-    cp -r "$CONFIG_DIR"/* "$BACKUP_DIR/"
+    # echo "Copying NixOS configuration"
+    # cp -r "$CONFIG_DIR"/* "$BACKUP_DIR/"
 
     # Change to backup directory
     echo "Changing to backup directory"
@@ -49,7 +49,6 @@ let
     echo "Backup completed at $(date) by ${cfg.user}"
 
     # Update local config since we pulled
-    ${pkgs.rsync}/bin/rsync -rv --exclude='.git' "$BACKUP_DIR" "$CONFIG_DIR"
   '';
 in {
   options.services.nixos-config-backup = {
