@@ -12,6 +12,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/de/gnome.nix
+      ../../modules/de/kde.nix
       ./hosts.nix
       ../../modules/backup-cron.nix
       #./zapiet-box.nix
@@ -77,6 +78,7 @@
   };
   
   desktop.gnome.enable = true;
+  desktop.kde.enable = false;
 
   services = {
     flatpak.enable = true;
