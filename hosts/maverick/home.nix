@@ -25,6 +25,9 @@
     # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
     koodo-reader
+    whitesur-kde
+    whitesur-icon-theme
+    latte-dock
   ];
 
   home.file = {
