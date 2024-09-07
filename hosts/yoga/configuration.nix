@@ -77,8 +77,8 @@
     enable32Bit = true;
   };
   
-  desktop.gnome.enable = true;
-  desktop.kde.enable = false;
+  desktop.gnome.enable = false;
+  desktop.kde.enable = true;
 
   services = {
     flatpak.enable = true;
@@ -220,7 +220,7 @@
           };
     	};
 	dconf.enable = true;
-    	seahorse.enable = true;
+    	# seahorse.enable = true;
   };
 
   # Allow unfree packages
