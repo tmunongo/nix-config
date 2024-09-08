@@ -16,23 +16,29 @@ in {
         xkb.layout = "us";
       };
       displayManager.sddm.enable = true;
+      displayManager.sddm.wayland.enable = true;
       desktopManager.plasma6.enable = true;
     };
 
     environment.systemPackages = with pkgs; [
       # KDE applications and utilities
       kdeplasma-addons
-      # kdePackages.spectacle
+      kdePackages.spectacle
       kdePackages.dolphin
       kdePackages.konsole
       kdePackages.kate
-      kdePackages.okular
+      # kdePackages.okular
       kdePackages.ark
-      libsForQt5.krohnkite
+
+      # libsForQt5.krohnkite
       # kdePackages.gwenview
       
       # Additional KDE-related packages
-      # latte-dock
+      latte-dock
+      # libsForQt5.polonium
+      whitesur-kde
+      whitesur-cursors
+      whitesur-icon-theme
       # kdeconnect
       
       # KWin scripts

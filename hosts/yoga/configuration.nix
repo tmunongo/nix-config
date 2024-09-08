@@ -87,7 +87,7 @@
     mullvad-vpn.enable = true;
 
     pipewire = {
-      enable = true;
+      enable = false;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
@@ -108,7 +108,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -123,13 +123,13 @@
       thunderbird
     ];
   };
-
+ 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
       "tawanda" = import ./home.nix;
     };
-    backupFileExtension = "bkp";
+    backupFileExtension = "bckp";
 
   };
 
@@ -319,9 +319,9 @@
 
 
   # desktop portals for hyprland
-  xdg.portal = {
-    enable = true;
-  };
+  # xdg.portal = {
+  #   enable = true;
+  # };
 
   # Security / Polkit
   security.rtkit.enable = true;
