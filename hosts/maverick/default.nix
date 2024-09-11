@@ -129,6 +129,11 @@
 	go_1_22
 	nodejs
 
+  # dev
+  android-studio
+  android-tools
+
+
 	# misc
 	obsidian
 	thefuck
