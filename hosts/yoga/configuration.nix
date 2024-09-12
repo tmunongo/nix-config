@@ -313,8 +313,8 @@
   floorp
 
   # Android
-  # android-studio
-  # android-tools
+  android-studio
+  android-tools
   ];
 
 
@@ -325,6 +325,7 @@
 
   # Security / Polkit
   security.rtkit.enable = true;
+  security.protectKernelImage = false;
 
   # docker
   # virtualisation.docker = {
