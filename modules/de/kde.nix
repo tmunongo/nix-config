@@ -23,15 +23,10 @@ in {
     environment.systemPackages = with pkgs; [
       # KDE applications and utilities
       kdeplasma-addons
-      kdePackages.spectacle
       kdePackages.dolphin
       kdePackages.konsole
       kdePackages.kate
-      # kdePackages.okular
       kdePackages.ark
-
-      # libsForQt5.krohnkite
-      # kdePackages.gwenview
       
       # Additional KDE-related packages
       latte-dock
@@ -82,15 +77,13 @@ in {
 #       })
     ];
 
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      okular
+      gwenview
+      spectacle
+    ];
+
     # Enable KDE Connect
     programs.kdeconnect.enable = true;
-
-    # Configure KWin
-    # programs.kwin = {
-    #  enable = true;
-    #  scripts = [
-    #    "tiling"
-    #  ];
-    #};
   };
 }

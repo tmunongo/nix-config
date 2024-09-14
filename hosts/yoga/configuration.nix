@@ -302,6 +302,7 @@
   insomnia
   # rpi-imager
   fastfetch
+  flameshot
 
   # entertainment
   vlc
