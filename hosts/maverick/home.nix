@@ -27,7 +27,6 @@
     koodo-reader
     whitesur-kde
     whitesur-icon-theme
-    latte-dock
   ];
 
   home.file = {
