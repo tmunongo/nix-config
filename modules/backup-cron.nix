@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.nixos-config-backup;
   backupScript = pkgs.writeShellScriptBin "nixos-config-backup" ''
-    sleep 5s
+    sleep 10s
 
     set -euo pipefail
     exec &> >(tee -a /tmp/nixos-config-backup.log)
