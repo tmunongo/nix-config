@@ -87,7 +87,7 @@
     mullvad-vpn.enable = true;
 
     pipewire = {
-      enable = false;
+      enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
@@ -108,7 +108,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
