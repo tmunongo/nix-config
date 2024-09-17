@@ -132,7 +132,7 @@
   # dev
   android-studio
   android-tools
-
+  dbeaver-bin
 
 	# misc
 	obsidian
