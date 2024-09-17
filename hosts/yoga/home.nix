@@ -25,36 +25,36 @@
   home.stateVersion = "24.05"; # Please read the comment before changing.
   
   # GTK Config
-  #gtk = {
-  #  enable = true;
-  #  
-  #  iconTheme = {
-  #    name = "Papirus-Dark";
-  #    package = pkgs.papirus-icon-theme;
-  #  };
-  #  
-  #  theme = {
-  #    name = "Flat-Remix-GTK-Black-Dark";
-  #    package = pkgs.flat-remix-gtk;
-  #  };
-  #  
-  #  cursorTheme = {
-  #    name = "Bibata-Modern-Ice";
-  #    package = pkgs.bibata-cursors;
-  #  };
+ #gtk = {
+ #  enable = true;
+ #  
+ #  iconTheme = {
+ #    name = "Papirus-Dark";
+ #    package = pkgs.papirus-icon-theme;
+ #  };
+ #  
+ #  theme = {
+ #    name = "Flat-Remix-GTK-Black-Dark";
+ #    package = pkgs.flat-remix-gtk;
+ #  };
+ #  
+ #  cursorTheme = {
+ #    name = "Bibata-Modern-Ice";
+ #    package = pkgs.bibata-cursors;
+ #  };
 
-  #  gtk3.extraConfig = {
-  #    gtk-application-prefer-dark-theme = 1;
-  #  };
-  #  gtk4.extraConfig = {
-  #    gtk-application-prefer-dark-theme = 1;
-  #  };
-  #};
-  #qt = {
-  #  enable = true;
-  #  style.name = "adwaita-dark";
-  #  platformTheme.name = "gtk3";
-  #};
+ #  gtk3.extraConfig = {
+ #    gtk-application-prefer-dark-theme = 1;
+ #  };
+ #  gtk4.extraConfig = {
+ #    gtk-application-prefer-dark-theme = 1;
+ #  };
+ #};
+ #qt = {
+ #  enable = true;
+ #  style.name = "adwaita-dark";
+ #  platformTheme.name = "gtk3"; 
+ # };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -68,7 +68,7 @@
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Noto" ]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your

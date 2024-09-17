@@ -56,20 +56,25 @@
     LC_TIME = "en_ZW.UTF-8";
   };
 
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    noto-fonts
-    freefont_ttf
-    noto-fonts-emoji
-    twitter-color-emoji
-    wqy_zenhei
-    wqy_microhei
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    arphic-ukai
-    arphic-uming
-    font-awesome
-  ];
+  fonts = {
+    fontconfig.enable = true;
+    fontDir.enable = true;
+    packages = with pkgs; [
+      dejavu_fonts
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      freefont_ttf
+      twitter-color-emoji
+      wqy_zenhei
+      wqy_microhei
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      arphic-ukai
+      arphic-uming
+      font-awesome
+    ];
+  };
 
   # Enable OpenGL
   hardware.graphics = {
@@ -311,11 +316,11 @@
   
   # browsers
   chromium
-  floorp
+  # floorp
 
   # Android
-  android-studio
-  android-tools
+  # android-studio
+  # android-tools
   ];
 
 
