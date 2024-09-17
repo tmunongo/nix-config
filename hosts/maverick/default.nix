@@ -130,9 +130,10 @@
 	nodejs
 
   # dev
-  android-studio
-  android-tools
+    #android-studio
+    #android-tools
   dbeaver-bin
+  quickemu
 
 	# misc
 	obsidian
