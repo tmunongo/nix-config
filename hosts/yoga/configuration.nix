@@ -308,6 +308,7 @@
   # rpi-imager
   fastfetch
   flameshot
+  appimage-run
 
   # entertainment
   vlc
