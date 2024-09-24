@@ -149,6 +149,7 @@
 	openssl
 	direnv
 	fzf
+  gparted
 
 	# entertainment
 	spotify
