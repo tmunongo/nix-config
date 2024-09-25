@@ -50,6 +50,9 @@
     enable32Bit = true;
   };
 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+
   desktop.kde.enable = true;
 
   services = {
