@@ -270,6 +270,7 @@
   distrobox
   zellij
   yt-dlp
+  unetbootin
 
   # dev tools
   git
