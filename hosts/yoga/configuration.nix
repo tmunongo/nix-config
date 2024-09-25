@@ -82,8 +82,8 @@
     enable32Bit = true;
   };
   
-  desktop.gnome.enable = false;
-  desktop.kde.enable = true;
+  desktop.gnome.enable = true;
+  desktop.kde.enable = false;
 
   services = {
     flatpak.enable = true;

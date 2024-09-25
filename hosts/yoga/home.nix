@@ -25,36 +25,37 @@
   home.stateVersion = "24.05"; # Please read the comment before changing.
   
   # GTK Config
- #gtk = {
- #  enable = true;
- #  
- #  iconTheme = {
- #    name = "Papirus-Dark";
- #    package = pkgs.papirus-icon-theme;
- #  };
- #  
- #  theme = {
- #    name = "Flat-Remix-GTK-Black-Dark";
- #    package = pkgs.flat-remix-gtk;
- #  };
- #  
- #  cursorTheme = {
- #    name = "Bibata-Modern-Ice";
- #    package = pkgs.bibata-cursors;
- #  };
-
- #  gtk3.extraConfig = {
- #    gtk-application-prefer-dark-theme = 1;
- #  };
- #  gtk4.extraConfig = {
- #    gtk-application-prefer-dark-theme = 1;
- #  };
- #};
- #qt = {
- #  enable = true;
- #  style.name = "adwaita-dark";
- #  platformTheme.name = "gtk3"; 
- # };
+ 
+   gtk = {
+     enable = true;
+     
+     iconTheme = {
+       name = "Papirus-Dark";
+       package = pkgs.papirus-icon-theme;
+     };
+     
+     theme = {
+       name = "Flat-Remix-GTK-Black-Dark";
+       package = pkgs.flat-remix-gtk;
+     };
+     
+     cursorTheme = {
+       name = "Bibata-Modern-Ice";
+       package = pkgs.bibata-cursors;
+     };
+  
+     gtk3.extraConfig = {
+       gtk-application-prefer-dark-theme = 1;
+     };
+     gtk4.extraConfig = {
+       gtk-application-prefer-dark-theme = 1;
+     };
+   };
+   qt = {
+     enable = true;
+     style.name = "adwaita-dark";
+     platformTheme.name = "gtk3"; 
+    };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -114,26 +115,26 @@
   #   EDITOR = "nvim";
   # };
 
-  #dconf = {
-  #  enable = true;
-  #  settings."org/gnome/shell" = {
-  #    disable-user-extensions = false;
-  #    enabled-extensions = with pkgs.gnomeExtensions; [
-  #      blur-my-shell.extensionUuid
-  #      clipboard-history.extensionUuid
-  #      dash-to-panel.extensionUuid
-  #      user-themes.extensionUuid
-  #      #paperwm.extensionUuid
-  #      caffeine.extensionUuid
-  #      arcmenu.extensionUuid
-  #      miniview.extensionUuid
-  #      appindicator.extensionUuid
-  #      mute-spotify-ads.extensionUuid
-  #	pop-shell.extensionUuid
-  #    ];
-  #  };
-  #  settings."org/gnome/desktop/interface".scaling-factor = 125;
-  #};
+  dconf = {
+    enable = true;
+    settings."org/gnome/shell" = {
+      disable-user-extensions = false;
+      enabled-extensions = with pkgs.gnomeExtensions; [
+        blur-my-shell.extensionUuid
+        clipboard-history.extensionUuid
+        dash-to-panel.extensionUuid
+        user-themes.extensionUuid
+        #paperwm.extensionUuid
+        caffeine.extensionUuid
+        arcmenu.extensionUuid
+        miniview.extensionUuid
+        appindicator.extensionUuid
+        mute-spotify-ads.extensionUuid
+  	pop-shell.extensionUuid
+      ];
+    };
+    settings."org/gnome/desktop/interface".scaling-factor = 125;
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
