@@ -252,9 +252,8 @@
   neovim
 
   # code editors 
-  jetbrains.phpstorm
-  vscode
   zed-editor
+  vscode
 
   # unix tools
   wget
@@ -286,14 +285,9 @@
   devbox
 
   # programming  
-  nodejs
-  rustup
-  nodejs_22
   python39
   ruby_3_3
   rubyPackages_3_3.racc
-  go
-  shopify-cli
   
   # software
   obsidian
@@ -306,7 +300,7 @@
   deluge
   # patchelf
   insomnia
-  # rpi-imager
+  rpi-imager
   fastfetch
   flameshot
   appimage-run
