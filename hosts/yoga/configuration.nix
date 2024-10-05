@@ -288,6 +288,8 @@
   python39
   ruby_3_3
   rubyPackages_3_3.racc
+  flutter
+  jdk22
   
   # software
   obsidian
