@@ -283,6 +283,7 @@
   oha
   zstd
   devbox
+  sqlite
 
   # programming  
   python39
