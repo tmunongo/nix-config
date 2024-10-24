@@ -380,7 +380,7 @@
   # networking.firewall.enable = false;
 
   # temporary solution for docker rootless issue
-  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 80;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
