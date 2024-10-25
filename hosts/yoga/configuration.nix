@@ -307,6 +307,10 @@
   fastfetch
   flameshot
   appimage-run
+  darktable
+  gimp
+  pinta
+  inkscape-with-extensions
 
   # entertainment
   vlc
