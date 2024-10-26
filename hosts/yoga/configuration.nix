@@ -307,6 +307,8 @@
   fastfetch
   flameshot
   appimage-run
+  
+  # photo editors
   darktable
   gimp
   pinta
@@ -316,6 +318,7 @@
   vlc
   spotify
   strawberry
+  spotdl
   
   # browsers
   chromium
