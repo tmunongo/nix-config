@@ -289,8 +289,9 @@
   python39
   ruby_3_3
   rubyPackages_3_3.racc
-  flutter
+  # flutter
   jdk22
+  gradle
   
   # software
   obsidian
@@ -325,8 +326,8 @@
   # floorp
 
   # Android
-  # android-studio
-  # android-tools
+  android-studio
+  android-tools
   ];
 
 
