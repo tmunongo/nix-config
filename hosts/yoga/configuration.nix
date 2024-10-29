@@ -62,7 +62,7 @@
     packages = with pkgs; [
       dejavu_fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       freefont_ttf
       twitter-color-emoji
@@ -291,7 +291,7 @@
   rubyPackages_3_3.racc
   # flutter
   jdk22
-  gradle
+  # gradle
   
   # software
   obsidian
@@ -326,8 +326,8 @@
   # floorp
 
   # Android
-  android-studio
-  android-tools
+  # android-studio
+  # android-tools
   ];
 
 
