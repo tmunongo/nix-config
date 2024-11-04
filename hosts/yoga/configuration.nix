@@ -328,6 +328,7 @@
   # Android
   # android-studio
   # android-tools
+  libreoffice
   ];
 
 
