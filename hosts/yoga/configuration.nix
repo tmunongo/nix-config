@@ -270,6 +270,7 @@
   zellij
   yt-dlp
   unetbootin
+  smartmontools
 
   # dev tools
   git
