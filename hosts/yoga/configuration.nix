@@ -285,6 +285,7 @@
   zstd
   devbox
   sqlite
+  virtualbox
 
   # programming  
   python39
