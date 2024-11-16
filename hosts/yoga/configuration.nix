@@ -286,6 +286,7 @@
   devbox
   sqlite
   virtualbox
+  qemu
 
   # programming  
   python39
