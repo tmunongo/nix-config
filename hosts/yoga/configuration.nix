@@ -293,7 +293,7 @@
   ruby_3_3
   rubyPackages_3_3.racc
   # flutter
-  jdk22
+  # jdk22
   # gradle
   
   # software
