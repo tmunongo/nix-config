@@ -62,7 +62,7 @@
     packages = with pkgs; [
       dejavu_fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       freefont_ttf
       twitter-color-emoji
@@ -82,8 +82,8 @@
     enable32Bit = true;
   };
   
-  desktop.gnome.enable = false;
-  desktop.kde.enable = true;
+  desktop.gnome.enable = true;
+  desktop.kde.enable = false;
 
   services = {
     flatpak.enable = true;
@@ -252,9 +252,8 @@
   neovim
 
   # code editors 
-  jetbrains.phpstorm
-  vscode
   zed-editor
+  vscode
 
   # unix tools
   wget
@@ -270,6 +269,8 @@
   distrobox
   zellij
   yt-dlp
+  unetbootin
+  smartmontools
 
   # dev tools
   git
@@ -283,16 +284,17 @@
   oha
   zstd
   devbox
+  sqlite
+  virtualbox
+  qemu
 
   # programming  
-  nodejs
-  rustup
-  nodejs_22
   python39
   ruby_3_3
   rubyPackages_3_3.racc
-  go
-  shopify-cli
+  # flutter
+  # jdk22
+  # gradle
   
   # software
   obsidian
@@ -305,14 +307,22 @@
   deluge
   # patchelf
   insomnia
-  # rpi-imager
+  rpi-imager
   fastfetch
   flameshot
+  appimage-run
+  
+  # photo editors
+  darktable
+  gimp
+  pinta
+  inkscape-with-extensions
 
   # entertainment
   vlc
   spotify
   strawberry
+  spotdl
   
   # browsers
   chromium
@@ -321,6 +331,7 @@
   # Android
   # android-studio
   # android-tools
+  libreoffice
   ];
 
 
@@ -381,7 +392,7 @@
   # networking.firewall.enable = false;
 
   # temporary solution for docker rootless issue
-  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 443;
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 80;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
