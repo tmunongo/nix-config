@@ -226,6 +226,10 @@
     	};
 	dconf.enable = true;
     	# seahorse.enable = true;
+	nix-ld = {
+	  enable = true;
+	  libraries = [];
+	};
   };
 
   # Allow unfree packages
@@ -252,7 +256,7 @@
   neovim
 
   # code editors 
-  zed-editor
+  # zed-editor
   vscode
 
   # unix tools
