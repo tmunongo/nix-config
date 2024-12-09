@@ -134,7 +134,7 @@
     users = {
       "tawanda" = import ./home.nix;
     };
-    backupFileExtension = "bckp";
+    backupFileExtension = "bckup";
 
   };
 
@@ -288,6 +288,7 @@
   oha
   zstd
   devbox
+  devenv
   sqlite
   virtualbox
   qemu
@@ -387,6 +388,9 @@
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
+    extraOptions = ''
+        trusted-users = root tawanda
+    '';
   };
 
   # Open ports in the firewall.
