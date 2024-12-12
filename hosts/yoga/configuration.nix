@@ -123,7 +123,7 @@
     isNormalUser = true;
     description = "tawanda";
     extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     packages = with pkgs; [
       thunderbird
     ];
@@ -146,14 +146,17 @@
           enable = true;
           defaultEditor = true;
         };
-	zsh = {  
-          enable = true;
-          ohMyZsh = {
-            enable = true;
-            plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
-            theme = "jonathan";
-          };
-        };
+	fish = {
+	  enable = true;
+	};	
+#	zsh = {  
+#          enable = true;
+#          ohMyZsh = {
+#            enable = true;
+#            plugins = [ "git" "sudo" "docker" "history-substring-search" "thefuck" ];
+#            theme = "jonathan";
+#          };
+#        };
 	starship = {
           enable = true;
           settings = {
