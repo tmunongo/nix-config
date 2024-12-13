@@ -122,12 +122,15 @@
   users.users.tawanda = {
     isNormalUser = true;
     description = "tawanda";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ 
+      "networkmanager" "wheel" "vboxusers" 
+    ];
     shell = pkgs.fish;
     packages = with pkgs; [
       thunderbird
     ];
   };
+  # users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -293,7 +296,8 @@
   devbox
   devenv
   sqlite
-  virtualbox
+  # virtualbox
+  vagrant
   qemu
 
   # programming  
@@ -303,6 +307,7 @@
   # flutter
   # jdk22
   # gradle
+  nodejs_23
   
   # software
   obsidian
@@ -363,6 +368,11 @@
     dockerSocket.enable = true;
     defaultNetwork.settings.dns_enabled = true;
     dockerCompat = true;
+  };
+
+  virtualisation.virtualbox = {
+    host.enable = true;
+    host.enableExtensionPack = true;
   };
   # virtualisation.docker.rootless = {
   #   enable = true;
