@@ -123,14 +123,13 @@
     isNormalUser = true;
     description = "tawanda";
     extraGroups = [ 
-      "networkmanager" "wheel" "vboxusers" 
+      "networkmanager" "wheel" "libvirtd" 
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
       thunderbird
     ];
   };
-  # users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -298,7 +297,8 @@
   sqlite
   # virtualbox
   vagrant
-  qemu
+  ansible
+  # qemu
 
   # programming  
   python39
@@ -326,10 +326,10 @@
   appimage-run
   
   # photo editors
-  darktable
+  # darktable
   gimp
   pinta
-  inkscape-with-extensions
+  # inkscape-with-extensions
 
   # entertainment
   vlc
@@ -369,11 +369,22 @@
     defaultNetwork.settings.dns_enabled = true;
     dockerCompat = true;
   };
-
-  virtualisation.virtualbox = {
-    host.enable = true;
-    host.enableExtensionPack = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
+      };
+    };
   };
+
   # virtualisation.docker.rootless = {
   #   enable = true;
   #  setSocketVariable = true;
