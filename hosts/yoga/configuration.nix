@@ -123,7 +123,7 @@
     isNormalUser = true;
     description = "tawanda";
     extraGroups = [ 
-      "networkmanager" "wheel" "libvirtd" 
+      "networkmanager" "wheel" "libvirtd" "lxd" 
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
@@ -384,6 +384,48 @@
       };
     };
   };
+  # virtualisation.lxd = {
+  #   enable = true;
+  #   preseed = {
+  #     networks = [
+  #       {
+  #         name = "lxdbr0";
+  #         type = "bridge";
+  #         config = {
+  #           "ipv4.address" = "10.0.100.1/24";
+  #           "ipv4.nat" = "true";
+  #         };
+  #       }
+  #     ];
+  #     profiles = [
+  #       {
+  #         name = "default";
+  #         devices = {
+  #           eth0 = {
+  #             name = "eth0";
+  #             network = "lxdbr0";
+  #             type = "nic";
+  #           };
+  #           root = {
+  #             path = "/";
+  #             pool = "default";
+  #             size = "35GiB";
+  #             type = "disk";
+  #           };
+  #         };
+  #       }
+  #     ];
+  #     storage_pools = [
+  #       {
+  #         name = "default";
+  #         driver = "dir";
+  #         config = {
+  #           source = "/var/lib/lxd/storage-pools/default";
+  #         };
+  #       }
+  #     ];
+  #   };  
+  # };
 
   # virtualisation.docker.rootless = {
   #   enable = true;
