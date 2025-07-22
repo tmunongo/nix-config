@@ -18,20 +18,21 @@ in {
       displayManager.sddm.enable = true;
       displayManager.sddm.wayland.enable = true;
       desktopManager.plasma6.enable = true;
+      desktopManager.plasma6.enableQt5Integration = false;
     };
 
     environment.systemPackages = with pkgs; [
       # KDE applications and utilities
-      kdeplasma-addons
-      kdePackages.dolphin
-      kdePackages.konsole
-      kdePackages.kate
-      kdePackages.ark
+      # kdeplasma-addons
+      # kdePackages.dolphin
+      # kdePackages.konsole
+      # kdePackages.kate
+      # kdePackages.ark
       
       # Additional KDE-related packages
-      whitesur-kde
-      whitesur-cursors
-      whitesur-icon-theme
+      # whitesur-kde
+      # whitesur-cursors
+      # whitesur-icon-theme
       # kdeconnect
       
       # KWin scripts

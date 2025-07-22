@@ -10,7 +10,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware.nix
       ../../modules/de/gnome.nix
       ../../modules/de/kde.nix
       ./hosts.nix
@@ -26,7 +26,18 @@
   boot.loader.grub.devices = [ "nodev" ];
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  boot.extraModprobeConfig = ''
+    options kvm_intel nested=1
+    options kvm_intel emulate_invalid_guest_state=0
+    options kvm ignore_msrs=1
+  '';
+
+  swapDevices = [{
+    device = "/swapfile";
+    size = 8 * 1024; # 8GB
+  }];
 
   networking.hostName = "yoga1da"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -81,15 +92,16 @@
     enable = true;
     enable32Bit = true;
   };
+  hardware.bluetooth.enable = true;
   
-  desktop.gnome.enable = true;
-  desktop.kde.enable = false;
+  desktop.gnome.enable = false;
+  desktop.kde.enable = true;
 
   services = {
     flatpak.enable = true;
     openssh.enable = true;
     printing.enable = true;
-    mullvad-vpn.enable = true;
+    # mullvad-vpn.enable = true;
 
     pipewire = {
       enable = true;
@@ -113,7 +125,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  # hardware.pulseaudio.enable = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -123,13 +135,15 @@
     isNormalUser = true;
     description = "tawanda";
     extraGroups = [ 
-      "networkmanager" "wheel" "libvirtd" "lxd" 
+      "networkmanager" "wheel" "libvirtd" "incus-admin"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
       thunderbird
     ];
   };
+
+  users.groups.libvirtd.members = ["tawanda"];
  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -143,7 +157,7 @@
   programs = {
         # Install firefox.
   	firefox.enable = true;
-	wireshark.enable = true;
+	# wireshark.enable = true;
         neovim = {
           enable = true;
           defaultEditor = true;
@@ -159,6 +173,7 @@
 #            theme = "jonathan";
 #          };
 #        };
+	virt-manager.enable = true;
 	starship = {
           enable = true;
           settings = {
@@ -261,8 +276,10 @@
   neovim
 
   # code editors 
-  # zed-editor
+  zed-editor
   vscode
+  ghostty
+  windsurf
 
   # unix tools
   wget
@@ -278,8 +295,8 @@
   distrobox
   zellij
   yt-dlp
-  unetbootin
-  smartmontools
+  # unetbootin
+  # smartmontools
 
   # dev tools
   git
@@ -293,17 +310,20 @@
   oha
   zstd
   devbox
-  devenv
+  # devenv
   sqlite
+  distrobox
   # virtualbox
-  vagrant
-  ansible
+  # vagrant
+  # ansible
   # qemu
+  dmg2img
+  railway
 
   # programming  
-  python39
-  ruby_3_3
-  rubyPackages_3_3.racc
+  python313
+  # ruby_3_3
+  # rubyPackages_3_3.racc
   # flutter
   # jdk22
   # gradle
@@ -311,8 +331,8 @@
   
   # software
   obsidian
-  mullvad-vpn
-  nextcloud-client
+  # mullvad-vpn
+  # nextcloud-client
   kitty
   teams-for-linux
   # podman-desktop # not being updated
@@ -320,31 +340,36 @@
   deluge
   # patchelf
   insomnia
-  rpi-imager
+  # rpi-imager
   fastfetch
   flameshot
   appimage-run
+  gnome-disk-utility
   
   # photo editors
   # darktable
-  gimp
-  pinta
+  # gimp
+  # pinta
   # inkscape-with-extensions
 
   # entertainment
   vlc
   spotify
-  strawberry
+  # strawberry
   spotdl
   
   # browsers
   chromium
+  # arc-browser
   # floorp
-
+  
+  jetbrains.phpstorm
   # Android
   # android-studio
   # android-tools
-  libreoffice
+  # libreoffice
+
+  # beekeeper-studio
   ];
 
 
@@ -383,6 +408,48 @@
         }).fd];
       };
     };
+  };
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.incus.enable = true;
+
+  virtualisation.incus.preseed = {  
+    networks = [
+      {
+        config = {
+          "ipv4.address" = "10.0.100.1/24";
+          "ipv4.nat" = "true";
+        };
+        name = "incusbr0";
+        type = "bridge";
+      }
+    ];
+    profiles = [
+      {
+        devices = {
+	  eth0 = {
+            name = "eth0";
+            network = "incusbr0";
+            type = "nic";
+          };
+          root = {
+            path = "/";
+            pool = "default";
+            size = "35GiB";
+            type = "disk";
+          };
+        };
+      name = "default";
+      }
+  ];
+    storage_pools = [
+      {
+        config = {
+          source = "/var/lib/incus/storage-pools/default";
+        };
+        driver = "dir";
+        name = "default";
+      }
+    ];
   };
   # virtualisation.lxd = {
   #   enable = true;
@@ -461,6 +528,8 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.trustedInterfaces = [ "incusbr0" "virbr0" ];
+  networking.nftables.enable = true;
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
